@@ -54,18 +54,27 @@ function displayForecast(forecastData){
   forecastElement.innerHTML = '';
  
   let forecastHTML='<h3 class="text=xl font-semibold">5-Day Forecast:</h3>  <div class="flex flex-wrap justify-center">';
- 
-  forecastData.list.forEach((entry,index)=>{
-  if(index%8===0){
+ const dailyForecasts=forecastData.list.filter(item=>item.dt_txt.includes("12:00:00"));
+  dailyForecasts.forEach(day=>{
+  const date=new Date (day.dt_txt).toLocaleDateString();
+  const iconUrl=`https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`;
+  const description=day.weather[0].description;
+  const temp=day.main.temp;
+  const humidity=day.main.humidity;
+  const windSpeed=day.wind.speed;
     forecastHTML+=`
     <div class="m-2 p-4 bg-blue-400 rounded-lg">
-     <p>${new Date(entry.dt_txt).toLocaleDateString()}</p>
-      <p>${entry.weather[0].description}</p>
-       <p>Temp:${entry.main.temp}°C</p>
-        
+   
+     <p class="font semibold">${ date}</p>
+      <img src="${iconUrl}" alt="${description}" class="mx-auto my-2">
+        <p>${description}</p>
+      
+       <p>Temp:${temp}°C</p>
+       <p>Humidity:${humidity}%</p>
+       <p>Wind:${windSpeed}m/s</p> 
        </div>
     `;
-  }
+  
  });
 forecastHTML+='</div>';
 forecastElement.innerHTML=forecastHTML;
