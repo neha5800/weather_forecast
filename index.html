@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>weather forecast</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+<!-- header part of the forcast -->
+
+<header>
+    <h1 class="bg-sky-900 text-center h-12 font-extrabold text-white p-2 text-2xl font-serif">Weather Forecast</h1>
+</header>
+<!-- section containing forecast -->
+
+<section  class="bg-gray-100  flex  justify-evenly">
+  <div class="border border-black flex flex-col  bg-blue-400 w-full p-10 m-5">
+
+<form  id="weatherForm" class="flex flex-col space-x-2 sm:flex-row items-start mb-4">
+  <input type="text" id="cityInput" class="w-full sm:flex-grow p-2 border border-black rounded-lg sm:rounded-l-lg
+   focus:border-amber-200"  placeholder="Enter City Name"/>
+<div class="text-center ">   <button type="submit" class="bg-blue-500 text-white p-2 rounded-lg sm:rounded-r-lg
+  hover:bg-blue-800 w-full text-center sm:w-auto mt-2 sm:mt-0">Search</button></div>
+
+
+</form>
+<!-- drpodown for cities -->
+ <div id="recentCities" class="relative w-full sm:w-auto">
+ <button  id="recentCitiesDropdown"  class="bg-blue-500 text-white p-2 rounded-lg sm:rounded-r-lg  hover:bg-blue-800 w-full  sm:w-auto mt-2 sm:mt-0"></button>
+  <ul id="recentCitiesList" class="hidden absolute bg-white rounded-lg w-full mt-1">
+
+  </ul>
+ </div>
+<div class="font-bold m-2 text-center"><p>or</p></div>
+<button id="currLocation" class="bg-blue-500 text-center   text-white p-2 rounded-lg sm:rounded-r-lg hover:bg-blue-800 w-full   sm:w-auto  sm:mt-0">Use current Location</button>
+</div>
+<!-- weather details -->
+<div id="weather"  class="border border-black  bg-blue-400 w-full p-10 m-5">
+<h2 class="text-2xl font-semibold text-black">Loading Weather...</h2>
+</div>
+
+</section>
+<article >
+  <div id="forecast" class="text-center">
+
+  </div>
+</article>
+   
+      
+  <script src="index.js"></script>  
+</body>
+</html>
+
+
+
+
+
+<!-- const apiKey='4631e1ba118978790699c0b85f4d3bcb'; -->
