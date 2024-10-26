@@ -16,7 +16,8 @@ function getWeather(city){
     if(weatherData.cod===200&& forecastData.cod==='200'){
       displayWeather(weatherData);
       displayForecast(forecastData);
-      
+     // addToRecentCities(city);
+     // updateRecentCitiesDropdown();
     }else{
       document.getElementById("weather").innerHTML=`<p>${weatherData.message}</p>`;
 
@@ -118,45 +119,56 @@ handleError('unable to retrive the location');
     }
   
 });
-
+//recent cities eventlistner
+document.getElementById("recentSearch").addEventListener("change", (event)=>{
+  const selectedCity=event.target.value;
+ 
+     getWeather(selectedCity);
+ 
+  
+});
 //recent city to save in dropdown
 function addToRecentCities(city){
   let recentCities=JSON.parse(localStorage.getItem('recentCities'))|| [];
   if(!recentCities.includes(city)){
-    recentCities.unshift(city);
+    recentCities.push(city);
     if(recentCities.length>5){
-      recentCities.pop();
+      recentCities.shift();
     }
-    localStorage.setItem("recentCities",JSON.stringify(recentCities));
-    updateRecentCitiesDropdown();
+    localStorage.setItem('recentCities',JSON.stringify(recentCities));
+     updateRecentCitiesDropdown();
   }
 
-};
+}
 function updateRecentCitiesDropdown(){
-  const recentCities = JSON.parse(localStorage.getItem('recentCities')) || [];
-  const recentCitiesList=document.getElementById("recentCitiesList");
-  recentCitiesList.innerHTML='';
+  let recentCities = JSON.parse(localStorage.getItem('recentCities')) || [];
+  const recentCitiesDropdown=document.getElementById('recentCitiesDropdown');
+  const recentSearch=document.getElementById("recentSearch");
+
+  recentSearch.innerHTML = '<option disabled selected>Recent search</option>';
   if(recentCities.length>0){
-    recentCitiesList.classList.remove('hidden');
     recentCities.forEach(city=>{
-      const cityItem=document.createElement('li');
-      cityItem.classList.add('p-2','hover:bg-gray-200', 'cursor-pointer');
-      cityItem.addEventListener("click",()=>getWeather(city));
-      recentCitiesList.appendChild(cityItem);
+      const option=document.createElement('option');
+      option.value=city;
+      option.textContent=city;
+      recentSearch.appendChild(option);
     });
-  }else{
-    recentCitiesList.classList.add('hidden');
+  
+  
+  
+    recentCitiesDropdown.classList.remove('hidden');
+  }
+  else{
+    recentCitiesDropdown.classList.add('hidden');
   }
 }
 
-document.getElementById('recentCitiesDropdown').addEventListener('click',()=>{
-  const recentCitiesList=document.getElementById('recentCitiesList');
-  recentCitiesList.classList.toggle('hidden');
-});
+//document.getElementById('recentCitiesDropdown').addEventListener('click',()=>{
+  //const recentCitiesList=document.getElementById('recentCities');
+ // recentCitiesList.classList.remove('hidden');
+//});
 
-window.onload = () => {
-  updateRecentCitiesDropdown();
-};
+
 //adding event listner to search button
 document.addEventListener('DOMContentLoaded',()=>{
   const weatherForm=document.getElementById("weatherForm");
@@ -165,8 +177,14 @@ weatherForm.addEventListener('submit',(event)=>{
   const cityInput=document.getElementById('cityInput').value.trim();
   if (validateCityInput(cityInput)) {
     getWeather(cityInput);
+    addToRecentCities(cityInput);
   }
 });
+
+
+
+
+
 const currentLocationBtn= document.getElementById("currLocation");
 currentLocationBtn.addEventListener("click",()=>{
   if(navigator.geolocation){
@@ -182,11 +200,11 @@ alert('Allow location to access current location to your system.');
   
 });
 
-const recentCitiesBtn=document.getElementById('recentCitiesDropdown');
-recentCitiesBtn.addEventListener('click',()=>{
-  document.getElementById('recentCitiesList')
-  .classList.toggle('hidden');
-});
+// const recentCitiesBtn=document.getElementById('recentCitiesDropdown');
+// recentCitiesBtn.addEventListener('click',()=>{
+//   document.getElementById('recentCitiesList')
+//   //.classList.toggle('hidden');
+// });
 
 });
 
